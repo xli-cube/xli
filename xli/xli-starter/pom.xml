@@ -1,0 +1,38 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xli</groupId>
+        <artifactId>xli</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>xli-starter</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-metadata-controller</artifactId>
+            <version>${xli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-mis-controller</artifactId>
+            <version>${xli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-soa-controller</artifactId>
+            <version>${xli.version}</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-sso-controller</artifactId>
+            <version>${xli.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-ui-controller</artifactId>
+            <version>${xli.version}</version>
+        </dependency>
+    </dependencies>
+</project>

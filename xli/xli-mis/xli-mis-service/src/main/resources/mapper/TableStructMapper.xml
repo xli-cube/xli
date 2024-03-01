@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xli.datamanage.tablestruct.mapper.TableStructMapper">
+
+    <select id="columnExists" resultType="boolean">
+        select count(*)
+        from information_schema.columns
+        where table_name = &apos;${sqlTableName}&apos;
+          and column_name = &apos;${fieldNameEn}&apos;;
+    </select>
+    <update id="createField">
+        alter table ${sqlTableName}
+            add ${fieldNameEn} ${fieldTypeFull} ${notnull} comment &apos;${fieldNameCn}&apos;;
+    </update>
+    <update id="dropField">
+        alter table ${sqlTableName}
+            drop column ${fieldNameEn};
+    </update>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xli.datamanage.tablebasic.mapper.TableBasicMapper">
+
+    <select id="tableExists" resultType="boolean">
+        select count(*)
+        from information_schema.tables
+        where table_name = &apos;${sqlTableName}&apos;;
+    </select>
+    <update id="createTable">
+        create table ${sqlTableName}
+        (
+            id     bigint(20) not null comment &apos;主键&apos;,
+            row_id bigint(20) not null auto_increment comment &apos;自增键&apos;,
+            constraint ${sqlTableName}_id_pk primary key (id),
+            constraint row_id_un unique key (row_id)
+        ) engine = InnoDB
+          default charset = utf8mb4
+          collate = utf8mb4_general_ci
+            comment =&apos;${tableName}&apos;;
+    </update>
+    <update id="dropTable">
+        drop table ${sqlTableName};
+    </update>
+</mapper>

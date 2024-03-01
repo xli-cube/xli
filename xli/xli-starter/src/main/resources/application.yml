@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: @profile.active@
+  application:
+    name: xli-web
+
+server:
+  port: 8080
+  servlet:
+    context-path: /${spring.application.name}/rest
+
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: false
+
+logging:
+  pattern:
+    console: "%d{yyyyMMdd HH:mm:ss,SSS} | %5p | %l |  %m %n"
+  file:
+    name: server.log
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+      file-name-pattern: server.%d{yyyy-MM-dd}.%i.log
