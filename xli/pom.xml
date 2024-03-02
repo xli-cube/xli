@@ -9,13 +9,13 @@
     <properties>
         <xli.version>0.0.1-SNAPSHOT</xli.version>
         <!-- 开源组件版本号管理-->
-        <spring-boot.version>3.2.1</spring-boot.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
         <spring-security.version>6.1.5</spring-security.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <!--<mybatis-mate.version>1.2.6</mybatis-mate.version>-->
         <mysql-connector.version>8.2.0</mysql-connector.version>
         <ehcache.version>3.10.8</ehcache.version>
-        <hutool.version>5.8.24</hutool.version>
+        <hutool.version>5.8.26</hutool.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <cglib.version>3.3.0</cglib.version>
         <fastjson.version>2.0.41</fastjson.version>
