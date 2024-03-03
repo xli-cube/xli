@@ -1,7 +1,9 @@
 package com.xli.mis.tablestruct.entity.mapper;
 
 import com.xli.mis.tablestruct.entity.TableStruct;
+import com.xli.mis.tablestruct.entity.dto.TableStructAddDTO;
 import com.xli.mis.tablestruct.entity.dto.TableStructDTO;
+import com.xli.mis.tablestruct.entity.dto.TableStructUpdateDTO;
 import com.xli.mis.tablestruct.entity.vo.TableStructVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -27,7 +29,22 @@ public interface ITableStructMapper {
             @Mapping(source = "showInSearch", target = "show_in_search"),
             @Mapping(source = "orderNum", target = "order_num")
     })
-    TableStruct toEntity(TableStructDTO tableStructDTO);
+    TableStruct toEntity(TableStructAddDTO tableStructDTO);
+
+    @Mappings({
+            @Mapping(source = "tableId", target = "table_id"),
+            @Mapping(source = "fieldNameEn", target = "field_name_en"),
+            @Mapping(source = "fieldNameCn", target = "field_name_cn"),
+            @Mapping(source = "fieldType", target = "field_type"),
+            @Mapping(source = "fieldLength", target = "field_length"),
+            @Mapping(source = "controlType", target = "control_type"),
+            @Mapping(source = "codeId", target = "code_id"),
+            @Mapping(source = "showInTable", target = "show_in_table"),
+            @Mapping(source = "showInDetail", target = "show_in_detail"),
+            @Mapping(source = "showInSearch", target = "show_in_search"),
+            @Mapping(source = "orderNum", target = "order_num")
+    })
+    TableStruct toEntity(TableStructUpdateDTO tableStructDTO);
 
     @Mappings({
             @Mapping(source = "table_id", target = "tableId"),

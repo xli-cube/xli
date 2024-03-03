@@ -5,12 +5,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 
 @Data
-public class TableStructDTO {
+public class TableStructDTO implements Serializable {
 
-    @NotNull(message = "id不能为空", groups = {IGroup.update.class, IGroup.delete.class, IGroup.detail.class})
-    private String id;
+    @Serial
+    private static final long serialVersionUID = 3385461775058599742L;
 
     @NotBlank(message = "fieldNameEn不能为空", groups = {IGroup.add.class, IGroup.update.class})
     private String fieldNameEn;
@@ -39,14 +42,4 @@ public class TableStructDTO {
     private String showInSearch;
 
     private Integer orderNum;
-
-    @NotNull(message = "current必填", groups = {IGroup.search.class})
-    private Integer current;
-
-    @NotNull(message = "pageSize必填", groups = {IGroup.search.class})
-    private Integer pageSize;
-
-    private String sort;
-
-    private String filter;
 }
