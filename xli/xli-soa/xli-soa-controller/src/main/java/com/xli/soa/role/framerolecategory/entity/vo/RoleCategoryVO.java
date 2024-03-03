@@ -6,24 +6,15 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-public class FrameRoleCategoryVO implements Serializable {
+public class RoleCategoryVO implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = -7446927322471157132L;
 
-	/**
-	 * 主键
-	 */
 	private Long id;
 
-	/**
-	 * 角色分类
-	 */
-	private String CategoryName;
+	private String categoryName;
 
-	/**
-	 * 排序
-	 */
 	private Integer orderNum;
 
 }

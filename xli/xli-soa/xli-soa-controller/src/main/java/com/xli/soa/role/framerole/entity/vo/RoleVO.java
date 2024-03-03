@@ -6,7 +6,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Data
-public class FrameRoleVO implements Serializable {
+public class RoleVO implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = -3594002208761100075L;
