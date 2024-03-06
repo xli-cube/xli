@@ -14,10 +14,6 @@ public class RoleDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 838742592960831822L;
 
-    @Schema(description = "角色名")
-    @NotBlank(message = "roleName必填", groups = {IGroup.add.class})
-    private String roleName;
-
     @Schema(description = "角色分类")
     private String categoryId;
 

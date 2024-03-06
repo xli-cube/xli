@@ -11,12 +11,13 @@ import com.xli.dto.result.status.Status;
 import com.xli.dto.validation.group.IGroup;
 import com.xli.soa.role.framerolecategory.entity.FrameRoleCategory;
 import com.xli.soa.role.framerolecategory.entity.dto.RoleCategoryAddDTO;
-import com.xli.soa.role.framerolecategory.entity.dto.RoleCategoryDTO;
 import com.xli.soa.role.framerolecategory.entity.dto.RoleCategorySearchDTO;
 import com.xli.soa.role.framerolecategory.entity.dto.RoleCategoryUpdateDTO;
 import com.xli.soa.role.framerolecategory.entity.mapper.IFrameRoleCategoryMapper;
 import com.xli.soa.role.framerolecategory.entity.vo.RoleCategoryVO;
 import com.xli.soa.role.framerolecategory.service.IFrameRoleCategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Tag(name = "角色分类")
 @RestController
 @RequestMapping("/frameRoleCategory")
 public class FrameRoleCategoryController {
@@ -32,6 +34,7 @@ public class FrameRoleCategoryController {
     @Autowired
     private IFrameRoleCategoryService iFrameRoleCategoryService;
 
+    @Operation(summary = "新增角色分类")
     @PostMapping(value = "/add")
     public ResultVO<String> add(@RequestBody @Validated(IGroup.add.class) RoleCategoryAddDTO dto) {
         QueryWrapper<FrameRoleCategory> qw = new QueryWrapper<>();
@@ -46,6 +49,7 @@ public class FrameRoleCategoryController {
         return new ResultVO<>(Status.FAILED, "添加失败");
     }
 
+    @Operation(summary = "删除角色分类")
     @PostMapping(value = "/delete")
     public ResultVO<String> delete(@RequestBody List<String> ids) {
         int i = 0;
@@ -57,6 +61,7 @@ public class FrameRoleCategoryController {
         return new ResultVO<>(Status.SUCCESS, i + "条数据删除成功");
     }
 
+    @Operation(summary = "更新角色分类")
     @PostMapping(value = "/update")
     public ResultVO<String> update(@RequestBody @Validated(IGroup.update.class) RoleCategoryUpdateDTO dto) {
         QueryWrapper<FrameRoleCategory> qw = new QueryWrapper<>();
@@ -72,6 +77,7 @@ public class FrameRoleCategoryController {
         return new ResultVO<>(Status.FAILED, "更新失败");
     }
 
+    @Operation(summary = "查询详情")
     @PostMapping(value = "/detail/{id}")
     public ResultVO<RoleCategoryVO> detail(@PathVariable("id") @NotBlank String id) {
         FrameRoleCategory frameRoleCategory = iFrameRoleCategoryService.find(Long.valueOf(id));
@@ -81,6 +87,7 @@ public class FrameRoleCategoryController {
         return new ResultVO<>(Status.SUCCESS, "查询失败");
     }
 
+    @Operation(summary = "查询列表")
     @PostMapping(value = "/search")
     public ResultVO<TableModel<RoleCategoryVO>> search(@RequestBody @Validated(IGroup.search.class) RoleCategorySearchDTO dto) {
         TableModel<RoleCategoryVO> tableModel = new TableModel<>() {
@@ -104,6 +111,7 @@ public class FrameRoleCategoryController {
         return new ResultVO<>(Status.SUCCESS, "查询成功", tableModel);
     }
 
+    @Operation(summary = "查询角色分类树")
     @PostMapping(value = "/fetchTree")
     public ResultVO<TreeModel<RoleCategoryVO>> fetchTree() {
         TreeModel<RoleCategoryVO> treeModel = new TreeModel<>() {

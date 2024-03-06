@@ -14,6 +14,8 @@ import com.xli.soa.role.framerole.entity.dto.RoleUpdateDTO;
 import com.xli.soa.role.framerole.entity.mapper.IFrameRoleMapper;
 import com.xli.soa.role.framerole.entity.vo.RoleVO;
 import com.xli.soa.role.framerole.service.IFrameRoleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "角色管理")
 @RestController
 @RequestMapping("/frameRole")
 public class FrameRoleController {
@@ -28,6 +31,7 @@ public class FrameRoleController {
     @Autowired
     private IFrameRoleService iFrameRoleService;
 
+    @Operation(summary = "新增角色")
     @PostMapping(value = "/add")
     public ResultVO<String> add(@RequestBody @Validated(IGroup.add.class) RoleAddDTO dto) {
         QueryWrapper<FrameRole> qw = new QueryWrapper<>();
@@ -42,6 +46,7 @@ public class FrameRoleController {
         return new ResultVO<>(Status.FAILED, "添加失败");
     }
 
+    @Operation(summary = "删除角色")
     @PostMapping(value = "/delete")
     public ResultVO<String> delete(@RequestBody List<String> ids) {
         int i = 0;
@@ -53,6 +58,7 @@ public class FrameRoleController {
         return new ResultVO<>(Status.SUCCESS, i + "条数据删除成功");
     }
 
+    @Operation(summary = "更新角色")
     @PostMapping(value = "/update")
     public ResultVO<String> update(@RequestBody @Validated(IGroup.update.class) RoleUpdateDTO dto) {
         if (iFrameRoleService.update(IFrameRoleMapper.INSTANCE.toEntity(dto))) {
@@ -61,6 +67,7 @@ public class FrameRoleController {
         return new ResultVO<>(Status.FAILED, "更新失败");
     }
 
+    @Operation(summary = "查询详情")
     @PostMapping(value = "/detail/{id}")
     public ResultVO<RoleVO> detail(@PathVariable("id") @NotBlank String id) {
         FrameRole frameRole = iFrameRoleService.find(Long.valueOf(id));
@@ -70,6 +77,7 @@ public class FrameRoleController {
         return new ResultVO<>(Status.FAILED, "查询失败");
     }
 
+    @Operation(summary = "查询列表")
     @PostMapping(value = "/search")
     public ResultVO<TableModel<RoleVO>> search(@RequestBody @Validated(IGroup.search.class) RoleSearchDTO dto) {
         TableModel<RoleVO> tableModel = new TableModel<>() {

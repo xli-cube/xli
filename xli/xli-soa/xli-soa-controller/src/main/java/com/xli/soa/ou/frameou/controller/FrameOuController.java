@@ -18,6 +18,7 @@ import com.xli.soa.ou.frameou.entity.dto.OuUpdateDTO;
 import com.xli.soa.ou.frameou.entity.mapper.IFrameOuMapper;
 import com.xli.soa.ou.frameou.entity.vo.OuVO;
 import com.xli.soa.ou.frameou.service.IFrameOuService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class FrameOuController {
     @Autowired
     private IFrameOuService iFrameOuService;
 
+    @Operation(summary = "新增部门")
     @PostMapping(value = "/add")
     public ResultVO<String> add(@RequestBody @Validated(IGroup.add.class) OuAddDTO dto) {
         if (iFrameOuService.insert(IFrameOuMapper.INSTANCE.toEntity(dto))) {
@@ -43,6 +45,7 @@ public class FrameOuController {
         return new ResultVO<>(Status.FAILED, "添加失败");
     }
 
+    @Operation(summary = "删除部门")
     @PostMapping(value = "/delete")
     public ResultVO<String> delete(@RequestBody List<Long> ids) {
         int i = 0;
@@ -54,6 +57,7 @@ public class FrameOuController {
         return new ResultVO<>(Status.SUCCESS, i + "条数据删除成功");
     }
 
+    @Operation(summary = "更新部门")
     @PostMapping(value = "/update")
     public ResultVO<String> update(@RequestBody @Validated(IGroup.update.class) OuUpdateDTO dto) {
         if (iFrameOuService.update(IFrameOuMapper.INSTANCE.toEntity(dto))) {
@@ -62,6 +66,7 @@ public class FrameOuController {
         return new ResultVO<>(Status.FAILED, "更新失败");
     }
 
+    @Operation(summary = "查询详情")
     @PostMapping(value = "/detail/{id}")
     public ResultVO<OuVO> detail(@PathVariable("id") @NotBlank String id) {
         OuVO frameOuVO = IFrameOuMapper.INSTANCE.toVO(iFrameOuService.find(Long.valueOf(id)));
@@ -69,6 +74,7 @@ public class FrameOuController {
         return new ResultVO<>(Status.SUCCESS, "查询成功", frameOuVO);
     }
 
+    @Operation(summary = "查询列表")
     @PostMapping(value = "/search")
     public ResultVO<TableModel<OuVO>> search(@RequestBody @Validated(IGroup.search.class) OuSearchDTO dto) {
         TableModel<OuVO> tableModel = new TableModel<>() {
@@ -87,6 +93,7 @@ public class FrameOuController {
         return new ResultVO<>(Status.SUCCESS, "查询成功", tableModel);
     }
 
+    @Operation(summary = "查询部门树")
     @PostMapping(value = "/fetchOuTree")
     public ResultVO<TreeModel<OuVO>> fetchOuTree(@RequestBody @Validated(IGroup.search.class) TreeNodeDTO dto) {
         TreeModel<OuVO> treeModel = new TreeModel<>() {
