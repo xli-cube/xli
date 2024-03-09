@@ -1,4 +1,4 @@
-package com.xli.soa.user.frameuserpermission.entity;
+package com.xli.soa.module.framemodule.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,28 +8,35 @@ import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @Builder
-@TableName("frame_user_permission")
+@TableName("frame_module")
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class FrameUserPermission implements Serializable {
+public class FrameModule implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -815915137598350706L;
+    private static final long serialVersionUID = 3603310951603307727L;
 
-    /**
-     * 主键
-     */
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    /**
-     * 自增键
-     */
     private Long row_id;
+
+    private String module_name;
+
+    private String type;
+
+    private String component;
+
+    private Long pid;
+
+    private String icon;
+
+    private String is_disable;
+
+    private int order_num;
 }
