@@ -22,7 +22,6 @@ public interface IFrameRoleMapper {
     FrameRole toEntity(RoleAddDTO dto);
 
     @Mappings({
-            @Mapping(source = "roleName", target = "role_name"),
             @Mapping(source = "categoryId", target = "category_id"),
             @Mapping(source = "orderNum", target = "order_num")})
     FrameRole toEntity(RoleUpdateDTO dto);
