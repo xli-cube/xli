@@ -6,22 +6,27 @@
         <artifactId>xli-job</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>xli-job-controller</artifactId>
+    <artifactId>xli-job-core</artifactId>
 
     <dependencies>
+        <!-- ********************** embed server: netty + gson ********************** -->
         <dependency>
-            <groupId>com.xli</groupId>
-            <artifactId>xli-job-service</artifactId>
-            <version>${xli.version}</version>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-http</artifactId>
+            <version>${netty.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.xli</groupId>
-            <artifactId>xli-job-core</artifactId>
-            <version>${xli.version}</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
         </dependency>
+
+        <!-- ********************** plugin ********************** -->
+        <!-- groovy-all -->
         <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>${groovy.version}</version>
         </dependency>
         <!-- javax.annotation-api -->
         <dependency>
@@ -29,15 +34,6 @@
             <artifactId>javax.annotation-api</artifactId>
             <version>${javax.annotation-api.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.7</version>
         </dependency>
     </dependencies>
 </project>
