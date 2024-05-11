@@ -1,0 +1,33 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xli</groupId>
+        <artifactId>xli</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>xli-log</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        
+    </properties>
+
+    <modules>
+        <module>xli-log-controller</module>
+        <module>xli-log-core</module>
+        <module>xli-log-http</module>
+        <module>xli-log-log4j2</module>
+        <module>xli-log-lucene</module>
+        <module>xli-log-server</module>
+        <module>xli-log-trace</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-dto</artifactId>
+            <version>${xli.version}</version>
+        </dependency>
+    </dependencies>
+</project>

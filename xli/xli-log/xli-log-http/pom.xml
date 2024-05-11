@@ -1,0 +1,35 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xli</groupId>
+        <artifactId>xli-log</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>xli-log-http</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-log-core</artifactId>
+            <version>${xli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-log-trace</artifactId>
+            <version>${xli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+            <version>11.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
