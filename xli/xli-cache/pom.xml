@@ -13,6 +13,7 @@
         <module>xli-cache-service</module>
         <module>xli-cache-controller</module>
         <module>xli-cache-anno</module>
+        <module>xli-cache-autoconfigure</module>
         <module>xli-cache-core</module>
         <module>xli-cache-redis</module>
         <module>xli-cache-redis-lettuce</module>

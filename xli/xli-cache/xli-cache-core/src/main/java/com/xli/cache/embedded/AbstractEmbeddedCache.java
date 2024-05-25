@@ -55,9 +55,9 @@ public abstract class AbstractEmbeddedCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     protected MultiGetResult<K, V> do_GET_ALL(Set<? extends K> keys) {
-        ArrayList<K> keyList = new ArrayList<K>(keys.size());
-        ArrayList<Object> newKeyList = new ArrayList<Object>(keys.size());
-        keys.stream().forEach((k) -> {
+        ArrayList<K> keyList = new ArrayList<>(keys.size());
+        ArrayList<Object> newKeyList = new ArrayList<>(keys.size());
+        keys.forEach((k) -> {
             Object newKey = buildKey(k);
             keyList.add(k);
             newKeyList.add(newKey);
@@ -70,20 +70,19 @@ public abstract class AbstractEmbeddedCache<K, V> extends AbstractCache<K, V> {
             CacheValueHolder<V> holder = innerResultMap.get(newKey);
             resultMap.put(key, parseHolderResult(holder));
         }
-        MultiGetResult<K, V> result = new MultiGetResult<>(CacheResultCode.SUCCESS, null, resultMap);
-        return result;
+        return new MultiGetResult<>(CacheResultCode.SUCCESS, null, resultMap);
     }
 
     @Override
     protected CacheResult do_PUT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        CacheValueHolder<V> cacheObject = new CacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
+        CacheValueHolder<V> cacheObject = new CacheValueHolder<>(value, timeUnit.toMillis(expireAfterWrite));
         innerMap.putValue(buildKey(key), cacheObject);
         return CacheResult.SUCCESS_WITHOUT_MSG;
     }
 
     @Override
     protected CacheResult do_PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        CacheValueHolder<V> cacheObject = new CacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
+        CacheValueHolder<V> cacheObject = new CacheValueHolder<>(value, timeUnit.toMillis(expireAfterWrite));
         if (innerMap.putIfAbsentValue(buildKey(key), cacheObject)) {
             return CacheResult.SUCCESS_WITHOUT_MSG;
         } else {
@@ -95,7 +94,7 @@ public abstract class AbstractEmbeddedCache<K, V> extends AbstractCache<K, V> {
     protected CacheResult do_PUT_ALL(Map<? extends K, ? extends V> map, long expireAfterWrite, TimeUnit timeUnit) {
         HashMap newKeyMap = new HashMap();
         for (Map.Entry<? extends K, ? extends V> en : map.entrySet()) {
-            CacheValueHolder<V> cacheObject = new CacheValueHolder(en.getValue(), timeUnit.toMillis(expireAfterWrite));
+            CacheValueHolder<V> cacheObject = new CacheValueHolder<>(en.getValue(), timeUnit.toMillis(expireAfterWrite));
             newKeyMap.put(buildKey(en.getKey()), cacheObject);
         }
         innerMap.putAllValues(newKeyMap);
@@ -113,13 +112,12 @@ public abstract class AbstractEmbeddedCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     protected CacheResult do_REMOVE_ALL(Set<? extends K> keys) {
-        Set newKeys = keys.stream().map(this::buildKey).collect(Collectors.toSet());
+        Set<Object> newKeys = keys.stream().map(this::buildKey).collect(Collectors.toSet());
         innerMap.removeAllValues(newKeys);
-
         return CacheResult.SUCCESS_WITHOUT_MSG;
     }
 
-    protected CacheGetResult<V> parseHolderResult(CacheValueHolder<V> holder) {
+    protected CacheGetResult parseHolderResult(CacheValueHolder<V> holder) {
         long now = System.currentTimeMillis();
         if (holder == null) {
             return (CacheGetResult<V>) CacheGetResult.NOT_EXISTS_WITHOUT_MSG;

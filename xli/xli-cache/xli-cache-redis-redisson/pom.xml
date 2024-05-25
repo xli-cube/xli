@@ -7,4 +7,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>xli-cache-redis-redisson</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.18.0</version>
+        </dependency>
+    </dependencies>
 </project>

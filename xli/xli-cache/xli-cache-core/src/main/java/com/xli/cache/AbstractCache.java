@@ -92,8 +92,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
                 }
                 if (ll.success) {
                     return (V) ll.value;
-                } else {
-                    continue;
                 }
             }
         }

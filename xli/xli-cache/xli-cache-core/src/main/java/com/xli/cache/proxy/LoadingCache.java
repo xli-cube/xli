@@ -70,7 +70,6 @@ public class LoadingCache<K, V> extends SimpleProxyCache<K, V> {
                             updateValues.put(k, v);
                         }
                     });
-                    // batch put
                     if (!updateValues.isEmpty()) {
                         PUT_ALL(updateValues);
                     }

@@ -7,4 +7,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>xli-cache-redis-lettuce</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>6.1.10.RELEASE</version>
+        </dependency>
+    </dependencies>
 </project>

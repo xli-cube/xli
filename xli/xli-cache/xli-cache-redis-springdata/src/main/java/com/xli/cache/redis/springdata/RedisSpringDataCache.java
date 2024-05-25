@@ -20,13 +20,13 @@ import java.util.function.Function;
 
 public class RedisSpringDataCache<K, V> extends AbstractExternalCache<K, V> {
 
-    private Logger logger = LoggerFactory.getLogger(RedisSpringDataCache.class);
+    private final Logger logger = LoggerFactory.getLogger(RedisSpringDataCache.class);
 
-    private RedisConnectionFactory connectionFactory;
-    private RedisSpringDataCacheConfig<K, V> config;
+    private final RedisConnectionFactory connectionFactory;
+    private final RedisSpringDataCacheConfig<K, V> config;
 
-    private Function<Object, byte[]> valueEncoder;
-    private Function<byte[], Object> valueDecoder;
+    private final Function<Object, byte[]> valueEncoder;
+    private final Function<byte[], Object> valueDecoder;
 
     public RedisSpringDataCache(RedisSpringDataCacheConfig<K, V> config) {
         super(config);
@@ -57,7 +57,7 @@ public class RedisSpringDataCache<K, V> extends AbstractExternalCache<K, V> {
             byte[] newKey = buildKey(key);
             byte[] resultBytes = con.get(newKey);
             if (resultBytes != null) {
-                CacheValueHolder<V> holder = (CacheValueHolder<V>) valueDecoder.apply((byte[]) resultBytes);
+                CacheValueHolder<V> holder = (CacheValueHolder<V>) valueDecoder.apply(resultBytes);
                 if (System.currentTimeMillis() >= holder.getExpireTime()) {
                     return CacheGetResult.EXPIRED_WITHOUT_MSG;
                 }
@@ -78,26 +78,27 @@ public class RedisSpringDataCache<K, V> extends AbstractExternalCache<K, V> {
         RedisConnection con = null;
         try {
             con = connectionFactory.getConnection();
-
             ArrayList<K> keyList = new ArrayList<>(keys);
-            byte[][] newKeys = keyList.stream().map((k) -> buildKey(k)).toArray(byte[][]::new);
+            byte[][] newKeys = keyList.stream().map(this::buildKey).toArray(byte[][]::new);
 
             Map<K, CacheGetResult<V>> resultMap = new HashMap<>();
             if (newKeys.length > 0) {
-                List mgetResults = con.mGet(newKeys);
-                for (int i = 0; i < mgetResults.size(); i++) {
-                    Object value = mgetResults.get(i);
-                    K key = keyList.get(i);
-                    if (value != null) {
-                        CacheValueHolder<V> holder = (CacheValueHolder<V>) valueDecoder.apply((byte[]) value);
-                        if (System.currentTimeMillis() >= holder.getExpireTime()) {
-                            resultMap.put(key, CacheGetResult.EXPIRED_WITHOUT_MSG);
+                List<byte[]> mgetResults = con.mGet(newKeys);
+                if (mgetResults != null) {
+                    for (int i = 0; i < mgetResults.size(); i++) {
+                        Object value = mgetResults.get(i);
+                        K key = keyList.get(i);
+                        if (value != null) {
+                            CacheValueHolder<V> holder = (CacheValueHolder<V>) valueDecoder.apply((byte[]) value);
+                            if (System.currentTimeMillis() >= holder.getExpireTime()) {
+                                resultMap.put(key, CacheGetResult.EXPIRED_WITHOUT_MSG);
+                            } else {
+                                CacheGetResult<V> r = new CacheGetResult<>(CacheResultCode.SUCCESS, null, holder);
+                                resultMap.put(key, r);
+                            }
                         } else {
-                            CacheGetResult<V> r = new CacheGetResult<>(CacheResultCode.SUCCESS, null, holder);
-                            resultMap.put(key, r);
+                            resultMap.put(key, CacheGetResult.NOT_EXISTS_WITHOUT_MSG);
                         }
-                    } else {
-                        resultMap.put(key, CacheGetResult.NOT_EXISTS_WITHOUT_MSG);
                     }
                 }
             }
@@ -115,7 +116,7 @@ public class RedisSpringDataCache<K, V> extends AbstractExternalCache<K, V> {
         RedisConnection con = null;
         try {
             con = connectionFactory.getConnection();
-            CacheValueHolder<V> holder = new CacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
+            CacheValueHolder<V> holder = new CacheValueHolder<>(value, timeUnit.toMillis(expireAfterWrite));
             byte[] keyBytes = buildKey(key);
             byte[] valueBytes = valueEncoder.apply(holder);
             Boolean result = con.pSetEx(keyBytes, timeUnit.toMillis(expireAfterWrite), valueBytes);
@@ -139,10 +140,10 @@ public class RedisSpringDataCache<K, V> extends AbstractExternalCache<K, V> {
             con = connectionFactory.getConnection();
             int failCount = 0;
             for (Map.Entry<? extends K, ? extends V> en : map.entrySet()) {
-                CacheValueHolder<V> holder = new CacheValueHolder(en.getValue(), timeUnit.toMillis(expireAfterWrite));
+                CacheValueHolder<V> holder = new CacheValueHolder<>(en.getValue(), timeUnit.toMillis(expireAfterWrite));
                 Boolean result = con.pSetEx(buildKey(en.getKey()),
                         timeUnit.toMillis(expireAfterWrite), valueEncoder.apply(holder));
-                if(!Boolean.TRUE.equals(result)){
+                if (!Boolean.TRUE.equals(result)) {
                     failCount++;
                 }
             }
@@ -185,7 +186,7 @@ public class RedisSpringDataCache<K, V> extends AbstractExternalCache<K, V> {
         RedisConnection con = null;
         try {
             con = connectionFactory.getConnection();
-            byte[][] newKeys = keys.stream().map((k) -> buildKey(k)).toArray((len) -> new byte[keys.size()][]);
+            byte[][] newKeys = keys.stream().map(this::buildKey).toArray((len) -> new byte[keys.size()][]);
             Long result = con.del(newKeys);
             if (result != null) {
                 return CacheResult.SUCCESS_WITHOUT_MSG;
@@ -205,15 +206,13 @@ public class RedisSpringDataCache<K, V> extends AbstractExternalCache<K, V> {
         RedisConnection con = null;
         try {
             con = connectionFactory.getConnection();
-            CacheValueHolder<V> holder = new CacheValueHolder(value, timeUnit.toMillis(expireAfterWrite));
+            CacheValueHolder<V> holder = new CacheValueHolder<>(value, timeUnit.toMillis(expireAfterWrite));
             byte[] newKey = buildKey(key);
             Boolean result = con.set(newKey, valueEncoder.apply(holder),
-                   Expiration.from(expireAfterWrite, timeUnit), RedisStringCommands.SetOption.ifAbsent());
+                    Expiration.from(expireAfterWrite, timeUnit), RedisStringCommands.SetOption.ifAbsent());
             if (Boolean.TRUE.equals(result)) {
                 return CacheResult.SUCCESS_WITHOUT_MSG;
-            }/* else if (result == null) {
-                return CacheResult.EXISTS_WITHOUT_MSG;
-            } */ else {
+            } else {
                 return CacheResult.EXISTS_WITHOUT_MSG;
             }
         } catch (Exception ex) {

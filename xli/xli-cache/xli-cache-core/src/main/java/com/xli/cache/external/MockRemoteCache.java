@@ -67,7 +67,7 @@ public class MockRemoteCache<K, V> extends AbstractExternalCache<K, V> {
             LinkedList<CacheValueHolder> list = new LinkedList<>();
             while (originHolder != null) {
                 CacheValueHolder h = new CacheValueHolder();
-                if (list.size() > 0) {
+                if (!list.isEmpty()) {
                     list.getLast().setValue(h);
                 }
                 list.add(h);

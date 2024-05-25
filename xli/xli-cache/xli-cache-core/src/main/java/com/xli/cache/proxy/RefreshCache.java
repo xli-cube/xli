@@ -114,8 +114,7 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
                 logger.debug("add refresh task. interval={},  key={}", refreshMillis, key);
                 RefreshTask task = new RefreshTask(taskId, key, loader);
                 task.lastAccessTime = System.currentTimeMillis();
-                ScheduledFuture<?> future = JetCacheExecutor.heavyIOExecutor().scheduleWithFixedDelay(task, refreshMillis, refreshMillis, TimeUnit.MILLISECONDS);
-                task.future = future;
+                task.future = JetCacheExecutor.heavyIOExecutor().scheduleWithFixedDelay(task, refreshMillis, refreshMillis, TimeUnit.MILLISECONDS);
                 return task;
             });
             refreshTask.lastAccessTime = System.currentTimeMillis();
@@ -188,7 +187,7 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
             long refreshMillis = config.getRefreshPolicy().getRefreshMillis();
             byte[] timestampKey = combine(newKey, TIMESTAMP_KEY_SUFFIX);
 
-            // AbstractExternalCache buildKey method will not convert byte[]
+            // AbstractExternalCache buildKey 方法不会转换 byte[]
             CacheGetResult refreshTimeResult = concreteCache.GET(timestampKey);
             boolean shouldLoad = false;
             if (refreshTimeResult.isSuccess()) {
@@ -207,14 +206,14 @@ public class RefreshCache<K, V> extends LoadingCache<K, V> {
             Runnable r = () -> {
                 try {
                     load();
-                    // AbstractExternalCache buildKey method will not convert byte[]
+                    // AbstractExternalCache buildKey 方法不会转换 byte[]
                     concreteCache.put(timestampKey, String.valueOf(System.currentTimeMillis()));
                 } catch (Throwable e) {
                     throw new CacheException("refresh error", e);
                 }
             };
 
-            // AbstractExternalCache buildKey method will not convert byte[]
+            // AbstractExternalCache buildKey 方法不会转换 byte[]
             boolean lockSuccess = concreteCache.tryLockAndRun(lockKey, loadTimeOut, TimeUnit.MILLISECONDS, r);
             if (!lockSuccess && multiLevelCache) {
                 JetCacheExecutor.heavyIOExecutor().schedule(() -> refreshUpperCaches(key), (long) (0.2 * refreshMillis), TimeUnit.MILLISECONDS);

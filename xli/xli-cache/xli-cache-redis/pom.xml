@@ -7,4 +7,18 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>xli-cache-redis</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xli</groupId>
+            <artifactId>xli-cache-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

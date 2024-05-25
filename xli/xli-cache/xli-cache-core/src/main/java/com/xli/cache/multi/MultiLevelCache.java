@@ -17,7 +17,6 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
 
     private MultiLevelCacheConfig<K, V> config;
 
-    @SuppressWarnings("unchecked")
     @Deprecated
     public MultiLevelCache(Cache... caches) throws CacheConfigException {
         this.caches = caches;
@@ -29,7 +28,6 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
         config.setCacheNullValue(lastConfig.isCacheNullValue());
     }
 
-    @SuppressWarnings("unchecked")
     public MultiLevelCache(MultiLevelCacheConfig<K, V> cacheConfig) throws CacheConfigException {
         this.config = cacheConfig;
         this.caches = cacheConfig.getCaches().toArray(new Cache[]{});
@@ -89,10 +87,9 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
     }
 
     private CacheValueHolder<V> unwrapHolder(CacheValueHolder<V> h) {
-        // if @Cached or @CacheCache change type from REMOTE to BOTH (or from BOTH to REMOTE),
-        // during the dev/publish process, the value type which different application server put into cache server will be different
-        // (CacheValueHolder<V> and CacheValueHolder<CacheValueHolder<V>>, respectively).
-        // So we need correct the problem at here and in CacheGetResult.
+        // 如果@Cached或@CacheCache将类型从 REMOTE 更改为 BOTH（或从 BOTH 更改为 REMOTE）
+        // 则在 devpublish 过程中，不同应用程序服务器放入缓存服务器的值类型将不同（分别为 CacheValueHolder<V> 和 CacheValueHolder<CacheValueHolder<V>>）。
+        // 因此，我们需要在此处和 CacheGetResult 中纠正该问题。
         Objects.requireNonNull(h);
         if (h.getValue() instanceof CacheValueHolder) {
             return (CacheValueHolder<V>) h.getValue();
@@ -122,7 +119,7 @@ public class MultiLevelCache<K, V> extends AbstractCache<K, V> {
         HashMap<K, CacheGetResult<V>> resultMap = new HashMap<>();
         Set<K> restKeys = new HashSet<>(keys);
         for (int i = 0; i < caches.length; i++) {
-            if (restKeys.size() == 0) {
+            if (restKeys.isEmpty()) {
                 break;
             }
             Cache<K, CacheValueHolder<V>> c = caches[i];

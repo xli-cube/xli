@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public abstract class AbstractExternalCache<K, V> extends AbstractCache<K, V> {
 
-    private ExternalCacheConfig<K, V> config;
+    private final ExternalCacheConfig<K, V> config;
 
     public AbstractExternalCache(ExternalCacheConfig<K, V> config) {
         this.config = config;
